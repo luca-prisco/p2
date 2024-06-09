@@ -160,6 +160,7 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 		}
 
 		try {
+			connection = ds.getConnection();
 			if (order != null && !order.equals("")) {
 	            preparedStatement = connection.prepareStatement(selectSQL);
 	            preparedStatement.setString(1, order); // Impostiamo il valore di order come parametro
