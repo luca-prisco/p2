@@ -154,13 +154,19 @@ public class ProdottoDao implements ProdottoDaoInterfaccia{
 		String selectSQL = "SELECT * FROM " + ProdottoDao.TABLE_NAME;
 
 		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+			 // Utilizziamo un PreparedStatement per gestire in modo sicuro i parametri
+	        selectSQL += " ORDER BY ?"; // Utilizziamo un segnaposto per il parametro ORDER BY
+
 		}
 
 		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-
+			if (order != null && !order.equals("")) {
+	            preparedStatement = connection.prepareStatement(selectSQL);
+	            preparedStatement.setString(1, order); // Impostiamo il valore di order come parametro
+	        } else {
+	            preparedStatement = connection.prepareStatement(selectSQL);
+	        }
+			
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
