@@ -24,10 +24,11 @@ USE `storage`;
 DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `email` varchar(100) NOT NULL,
   `username` varchar(100) DEFAULT NULL,
-  `pwd` varchar(5000) DEFAULT NULL,
+  `pwd` varchar(128) DEFAULT NULL,  -- Modificato per contenere hash e salt
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
   `data_nascita` date NOT NULL,
@@ -35,12 +36,9 @@ CREATE TABLE `cliente` (
   `carta_credito` varchar(16) DEFAULT NULL,
   `indirizzo` varchar(100) DEFAULT NULL,
   `cap` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`email`),
-  KEY `carta_credito` (`carta_credito`),
-  KEY `indirizzo` (`indirizzo`,`cap`),
-  CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`carta_credito`) REFERENCES `metodo_pagamento` (`numero_carta`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `cliente_ibfk_2` FOREIGN KEY (`indirizzo`, `cap`) REFERENCES `indirizzo_spedizione` (`indirizzo`, `cap`) ON DELETE SET NULL ON UPDATE CASCADE
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

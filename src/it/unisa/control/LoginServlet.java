@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import it.unisa.model.*;
-
+import it.unisa.tools.*;
 /**
  * Servlet implementation class LoginServlet
  */
@@ -30,11 +30,15 @@ public class LoginServlet extends HttpServlet {
 		
 		try
 		{	    
+	        String username = request.getParameter("un");
+	        String password = request.getParameter("pw");
 
+	        String hashPassword = PasswordHasher.hashPassword(password);
+	        
 		     UserBean user = new UserBean();
-		     user.setUsername(request.getParameter("un"));
-		     user.setPassword(request.getParameter("pw"));
-		     user = usDao.doRetrieve(request.getParameter("un"),request.getParameter("pw"));
+		     user.setUsername(username);
+		     user.setPassword(password);
+		     user = usDao.doRetrieve(username, hashPassword);
 			   		    
 		    
 		     String checkout = request.getParameter("checkout");

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.model.*;
+import it.unisa.tools.PasswordHasher;
 
 /**
  * Servlet implementation class RegistraziomeServlet
@@ -34,7 +35,9 @@ public class RegistrazioneServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String dataNascita = request.getParameter("nascita");
 		String username = request.getParameter("us");
-		String pwd = request.getParameter("pw");
+        String password = request.getParameter("pw");
+
+        String hashPassword = PasswordHasher.hashPassword(password);
 
         String[] parti = dataNascita.split("-");
         dataNascita = parti[2] + "-" + parti[1] + "-" + parti[0];
@@ -47,7 +50,7 @@ public class RegistrazioneServlet extends HttpServlet {
 			user.setEmail(email);
 			user.setDataDiNascita(Date.valueOf(dataNascita));
 			user.setUsername(username);
-			user.setPassword(pwd);
+			user.setPassword(hashPassword);
 			user.setAmministratore(false);
 			user.setCap(null);
 			user.setIndirizzo(null);
